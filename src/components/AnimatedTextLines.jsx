@@ -6,24 +6,25 @@ import { ScrollTrigger } from "gsap/all";
 gsap.registerPlugin(ScrollTrigger);
 
 const AnimatedTextLines = ({ text, className }) => {
-  const lines = text.split("\n").filter((line) => line.trim() !== "");
+  const safeText = text || "";
+  const lines = safeText.split("\n").filter((line) => line.trim() !== "");
   const containerRef = useRef(null);
   const lineRefs = useRef([]);
 
-    useGSAP(() => {
-      if (lineRefs.current.length > 0) {
-        gsap.from(lineRefs.current, {
-          y: 100,
-          opacity: 0,
-          duration:1,
-          stagger:0.3,
-          ease:"back.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-          },
-        });
-      }
-    })
+  useGSAP(() => {
+    if (lineRefs.current.length > 0) {
+      gsap.from(lineRefs.current, {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.3,
+        ease: "back.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+        },
+      });
+    }
+  });
   return (
     <div ref={containerRef} className={className}>
       {lines.map((line, index) => (
